@@ -1,0 +1,1 @@
+Download/convert the 4 hero visuals to WEBM and place them here with the exact filenames used in HeroSection.tsx.

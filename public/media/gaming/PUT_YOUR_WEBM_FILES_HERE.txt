@@ -1,0 +1,1 @@
+Download/convert the 5 gaming visuals to WEBM and place them here with the exact filenames used in GamingSection.tsx.

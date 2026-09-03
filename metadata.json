@@ -1,0 +1,6 @@
+{
+  "name": "The Rio — Private Cinema & Gaming Experience",
+  "description": "A premium private cinema and PS5 gaming experience built around privacy, comfort and unforgettable nights.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
