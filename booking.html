@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#050505">
+  <link rel="icon" href="/favicon.png" type="image/png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <title>Reserve Your Experience — The Rio</title>
+  <link rel="stylesheet" href="/booking.css">
+</head>
+<body>
+  <div class="booking-page">
+    <header class="booking-nav">
+      <a href="/" class="brand"><span class="brand-mark">R</span><span><b>THE RIO<span>.</span></b><small>PRIVATE CINEMA · PS5 · EXPERIENCES</small></span></a>
+      <a href="/" class="back">← BACK TO THE RIO</a>
+    </header>
+
+    <main class="booking-layout">
+      <aside class="booking-intro">
+        <div class="eyebrow">THE RIO / RESERVATION</div>
+        <div class="intro-index">01 — 05</div>
+        <h1>Build your<br><em>perfect scene.</em></h1>
+        <p>Choose your experience, lock in the moment, add the little extras, and we'll take you straight to secure PayHere checkout.</p>
+        <div class="intro-meta"><span>PRIVATE</span><span>3 HOURS</span><span>UP TO 6 GUESTS</span></div>
+        <div class="line"></div>
+        <p class="secure"><strong>SECURE BY DESIGN</strong><br>Your reservation is created server-side. Payment is handled by PayHere; The Rio never stores your card details.</p>
+      </aside>
+
+      <section class="booking-card">
+        <div class="card-top"><div><small>RESERVE YOUR EXPERIENCE</small><h2>Tell us when.</h2></div><div class="live-total"><span>ESTIMATED TOTAL</span><strong id="total">Rs. 3,000</strong></div></div>
+        <form id="booking-form">
+          <section class="step"><div class="step-no">01</div><div class="step-content"><div class="step-label">CHOOSE YOUR SCENE</div><h3>What are we playing?</h3>
+            <div class="packages">
+              <button type="button" class="package selected" data-package="movie"><span class="icon">▦</span><span><b>Private Movie Theater Experience</b><small>3 Hours · up to 3 guests</small></span><strong>Rs. 3,000</strong></button>
+              <button type="button" class="package" data-package="ps5"><span class="icon dark">⌁</span><span><b>PS5 Next-Gen Gaming Lounge</b><small>3 Hours · up to 3 guests</small></span><strong>Rs. 3,500</strong></button>
+            </div>
+          </div></section>
+
+          <section class="step"><div class="step-no">02</div><div class="step-content"><div class="step-label">SET THE MOMENT</div><h3>When should it happen?</h3>
+            <div class="fields two"><label>DATE<input id="date" type="date" required></label><label>TIME<select id="slot" required><option value="slot-1">10:00 AM — 01:00 PM · Morning Matinee</option><option value="slot-2">01:30 PM — 04:30 PM · Afternoon Premiere</option><option value="slot-3">05:00 PM — 08:00 PM · Prime Sunset Session</option><option value="slot-4">08:30 PM — 11:30 PM · Late Night Blockbuster</option></select></label></div>
+          </div></section>
+
+          <section class="step"><div class="step-no">03</div><div class="step-content"><div class="step-label">SIZE THE SQUAD</div><h3>How many are coming?</h3>
+            <div class="counter"><button type="button" id="minus">−</button><strong id="guests">3</strong><span>guests</span><button type="button" id="plus">+</button></div>
+          </div></section>
+
+          <section class="step"><div class="step-no">04</div><div class="step-content"><div class="step-label">OPTIONAL</div><h3>Add a little extra.</h3>
+            <div class="addons">
+              <label><input type="checkbox" value="popcorn-combo" data-price="800"><span>Jumbo Popcorn & Dip Combo</span><b>+Rs. 800</b></label>
+              <label><input type="checkbox" value="beverage-bucket" data-price="650"><span>Chilled Soda & Mocktail Bucket</span><b>+Rs. 650</b></label>
+              <label><input type="checkbox" value="celebration-decor" data-price="2000"><span>Birthday / Anniversary Deco & Cake Setup</span><b>+Rs. 2,000</b></label>
+              <label><input type="checkbox" value="extra-hour" data-price="1200"><span>Extra 1 Hour Extension</span><b>+Rs. 1,200</b></label>
+            </div>
+          </div></section>
+
+          <section class="step"><div class="step-no">05</div><div class="step-content"><div class="step-label">YOUR DETAILS</div><h3>Where should we send confirmation?</h3>
+            <div class="fields two"><label>FIRST NAME<input id="firstName" maxlength="80" required></label><label>LAST NAME<input id="lastName" maxlength="80" required></label><label>EMAIL<input id="email" type="email" maxlength="254" required></label><label>PHONE<input id="phone" type="tel" maxlength="30" required></label></div>
+            <label class="note">FINAL NOTE · OPTIONAL<textarea id="specialNote" maxlength="500" rows="3" placeholder="Movie title, game choice, birthday idea, anything that sets the mood..."></textarea></label>
+          </div></section>
+
+          <div class="error" id="error" role="alert"></div>
+          <div class="submit-bar"><div><span>PAYMENT NEXT</span><p>You'll review this reservation on a dedicated secure payment page.</p></div><button id="submit" type="submit">CONTINUE TO PAYMENT <span>↗</span></button></div>
+        </form>
+      </section>
+    </main>
+  </div>
+  <script src="/booking.js" defer></script>
+</body>
+</html>

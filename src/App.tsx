@@ -7,7 +7,6 @@ import { AboutSection } from './components/AboutSection';
 import { TestimonialsSection } from './components/TestimonialsSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
-import { BookingModal } from './components/BookingModal';
 import { Ticket } from 'lucide-react';
 import { Reveal } from './components/Reveal';
 import { useMouseWheelSections } from './hooks/useMouseWheelSections';
@@ -15,12 +14,10 @@ import { ExperienceChrome } from './components/ExperienceChrome';
 
 export default function App() {
   useMouseWheelSections();
-  const [bookingModalOpen, setBookingModalOpen] = useState(false);
-  const [selectedPackageForBooking, setSelectedPackageForBooking] = useState<'movie' | 'ps5'>('movie');
 
   const handleOpenBooking = (packageId?: 'movie' | 'ps5') => {
-    if (packageId) setSelectedPackageForBooking(packageId);
-    setBookingModalOpen(true);
+    const query = packageId ? `?package=${packageId}` : '';
+    window.location.assign(`/booking.html${query}`);
   };
 
   const handleScrollToPackages = () => {
@@ -44,11 +41,7 @@ export default function App() {
 
       <Footer onOpenBooking={() => handleOpenBooking()} />
 
-      <BookingModal
-        isOpen={bookingModalOpen}
-        onClose={() => setBookingModalOpen(false)}
-        initialPackageId={selectedPackageForBooking}
-      />
+
 
       <button
         id="floating-book-btn"
