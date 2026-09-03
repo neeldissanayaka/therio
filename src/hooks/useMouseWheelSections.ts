@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 export function useMouseWheelSections() {
   useEffect(() => {
-    const desktop = window.matchMedia('(min-width: 1024px)');
+    const desktop = window.matchMedia('(min-width: 1024px) and (pointer: fine)');
     let locked = false;
     let unlockTimer: number | undefined;
     let accumulated = 0;

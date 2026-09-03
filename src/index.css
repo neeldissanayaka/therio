@@ -1952,33 +1952,57 @@ html, body, #root {
   margin: 0;
   box-sizing: border-box;
 }
+html, body {
+  overflow-x: clip;
+}
 *, *::before, *::after { box-sizing: border-box; }
 
 @media (max-width: 1023px) {
+  /* Use the visual viewport as the hard layout boundary. 100vw is intentional
+     here: percentage widths can resolve against a narrower transformed ancestor
+     during first paint/reload on some mobile Chromium builds. */
   html, body, #root, main, .desktop-section-flow, .aos-section-shell,
   #hero-section, .gaming-section, #packages, #about, #testimonials, #contact,
   footer {
-    width: 100% !important;
-    max-width: 100% !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
     min-width: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  html, body {
+    overflow-x: clip !important;
   }
 
   body {
-    overflow-x: hidden !important;
     position: relative;
+  }
+
+  #root {
+    position: relative;
+    overflow-x: clip;
   }
 
   main > .aos-section-shell,
   main > .aos-section-shell > section {
-    width: 100% !important;
-    max-width: 100% !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
     min-width: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .aos-hero-shell {
+    transform: none !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
   }
 
   #hero-section {
-    width: 100% !important;
+    width: 100vw !important;
     min-height: 100svh !important;
-    max-width: 100% !important;
+    max-width: 100vw !important;
     overflow: hidden !important;
   }
 
@@ -2043,7 +2067,6 @@ html, body, #root {
     max-width: 100% !important;
   }
 }
-
 @media (max-width: 480px) {
   #hero-section > .relative.z-20 {
     padding-top: 6.5rem !important;
@@ -2060,5 +2083,439 @@ html, body, #root {
     max-width: 100%;
     padding: .9rem 1rem !important;
     font-size: .62rem !important;
+  }
+}
+
+
+/* V24 — responsive architecture pass
+   Treat touch devices as mobile/tablet even when Chrome/Safari is switched to
+   “Desktop site”. This avoids loading the desktop one-viewport composition on
+   a small physical screen and removes the large side-gutters / oversized gaps.
+*/
+html, body, #root {
+  inline-size: 100%;
+  max-inline-size: 100%;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+img, svg, video, canvas {
+  max-inline-size: 100%;
+}
+
+button, a, input, textarea, select {
+  min-width: 0;
+}
+
+/* Normal phones + tablets */
+@media (max-width: 1023px) {
+  html, body, #root, main, footer,
+  .desktop-section-flow, .aos-section-shell,
+  #hero-section, #packages, #gaming, #about, #testimonials, #contact,
+  .gaming-section {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-inline: 0 !important;
+  }
+
+  main {
+    overflow-x: hidden;
+  }
+
+  .aos-section-shell {
+    transform: none !important;
+  }
+
+  /* Never let the desktop wheel/section system create artificial spacing. */
+  main > .aos-section-shell,
+  main > .aos-section-shell > section {
+    min-height: 0;
+    height: auto;
+    max-height: none;
+  }
+
+  #hero-section,
+  .gaming-section {
+    min-height: 100svh !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  #hero-section > .relative.z-20,
+  .gaming-section > .relative.z-10 {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 100svh !important;
+    padding-inline: clamp(1rem, 5vw, 2rem) !important;
+  }
+
+  /* Tailwind max-width wrappers must never become the mobile canvas. */
+  #hero-section .max-w-7xl,
+  #packages .max-w-7xl,
+  #about .max-w-7xl,
+  #testimonials .max-w-7xl,
+  #contact .max-w-7xl,
+  .gaming-section .max-w-7xl {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+  }
+
+  /* Hero: one clean column, no hidden desktop visual reserving space. */
+  #hero-section > .relative.z-20 > .w-full {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  #hero-section .hero-visual-clean {
+    display: none !important;
+  }
+
+  #hero-section .hero-copy-stage {
+    width: 100% !important;
+    min-height: 0 !important;
+    margin-bottom: 1rem !important;
+  }
+
+  #hero-section .hero-title {
+    width: 100% !important;
+    max-width: 8ch !important;
+    font-size: clamp(3rem, 13vw, 5.75rem) !important;
+    line-height: .84 !important;
+    letter-spacing: -.06em !important;
+  }
+
+  #hero-section .hero-aos-item,
+  #hero-section .hero-copy-stage > *,
+  #hero-section .max-w-2xl,
+  #hero-section .max-w-3xl {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  #hero-section .hero-slide-image {
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    min-height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  #hero-section .hero-vignette {
+    background:
+      linear-gradient(90deg, rgba(3,3,3,.93) 0%, rgba(3,3,3,.55) 58%, rgba(3,3,3,.25) 100%),
+      linear-gradient(0deg, rgba(3,3,3,.94) 0%, transparent 52%, rgba(3,3,3,.58) 100%);
+  }
+
+  #hero-section .premium-button,
+  #hero-section .ghost-button {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  /* Content sections: natural document flow on touch devices. */
+  #packages,
+  #about,
+  #testimonials,
+  #contact {
+    min-height: auto !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: hidden !important;
+  }
+
+  #packages > .max-w-7xl,
+  #about > .max-w-7xl,
+  #testimonials > .max-w-7xl,
+  #contact > .max-w-7xl {
+    height: auto !important;
+    max-height: none !important;
+    margin: 0 auto !important;
+    padding-block: clamp(4rem, 9vw, 6rem) !important;
+  }
+
+  .pricing-grid,
+  #packages .grid.md\:grid-cols-2,
+  #about .grid,
+  #testimonials .grid.md\:grid-cols-3,
+  #contact > .max-w-7xl > .grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .pricing-card {
+    min-height: 0 !important;
+  }
+
+  .about-collage {
+    transform: none !important;
+    min-height: 360px !important;
+  }
+
+  .about-modern-grid,
+  .contact-modern-grid {
+    transform: none !important;
+  }
+
+  .testimonial-modern-card,
+  .testimonial-reference-card {
+    min-height: 0 !important;
+  }
+
+  /* Gaming becomes a natural-height mobile feature rather than a desktop viewport. */
+  .gaming-section > .relative.z-10 {
+    padding-top: 6.25rem !important;
+    padding-bottom: 3.5rem !important;
+  }
+
+  .gaming-section .gaming-feature-frame {
+    width: 100% !important;
+    min-height: 300px !important;
+    height: min(62vw, 390px) !important;
+  }
+
+  .gaming-section .gaming-copy-stage {
+    min-height: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .gaming-section .game-rail {
+    max-width: 100%;
+  }
+
+  /* Fixed header stays inside the physical viewport. */
+  #main-header {
+    width: 100% !important;
+    max-width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+
+  #desktop-nav-menu {
+    min-width: 0;
+  }
+}
+
+/* Desktop-site mode on phones/tablets: coarse pointer is the reliable signal. */
+@media (min-width: 1024px) and (pointer: coarse) {
+  html {
+    scroll-behavior: smooth !important;
+  }
+
+  body {
+    overflow-x: hidden !important;
+    overscroll-behavior-y: auto !important;
+  }
+
+  /* Disable desktop one-section-at-a-time composition. */
+  main > .aos-section-shell,
+  main > .aos-section-shell > section,
+  main > div:has(> section) {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  #hero-section,
+  .gaming-section {
+    min-height: 100svh !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: hidden !important;
+  }
+
+  #hero-section > .relative.z-20,
+  .gaming-section > .relative.z-10 {
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 100svh !important;
+    padding: 7rem 5vw 4rem !important;
+  }
+
+  #hero-section > .relative.z-20 > .w-full {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  #hero-section .hero-visual-clean {
+    display: none !important;
+  }
+
+  #hero-section .hero-copy-stage,
+  .gaming-section .gaming-copy-stage {
+    min-height: 0 !important;
+    max-width: 100% !important;
+  }
+
+  #hero-section .hero-title {
+    max-width: 8ch !important;
+    font-size: clamp(3rem, 12vw, 5.5rem) !important;
+    line-height: .84 !important;
+  }
+
+  #hero-section .hero-slide-image {
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    object-fit: cover !important;
+  }
+
+  #packages,
+  #about,
+  #testimonials,
+  #contact {
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: hidden !important;
+  }
+
+  #packages > .max-w-7xl,
+  #about > .max-w-7xl,
+  #testimonials > .max-w-7xl,
+  #contact > .max-w-7xl {
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: none !important;
+    margin: 0 auto !important;
+    padding: 4.5rem 5vw !important;
+  }
+
+  .pricing-grid,
+  #packages .grid.md\:grid-cols-2,
+  #about .grid,
+  #testimonials .grid.md\:grid-cols-3,
+  #contact > .max-w-7xl > .grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .gaming-section .gaming-feature-frame {
+    height: min(58vw, 420px) !important;
+    min-height: 300px !important;
+  }
+
+  /* Desktop-site mode should still expose the mobile navigation. */
+  #desktop-nav-menu,
+  #nav-book-now-btn {
+    display: none !important;
+  }
+
+  #mobile-menu-toggle-btn {
+    display: flex !important;
+  }
+
+  #mobile-dropdown-menu {
+    display: flex !important;
+  }
+
+  /* Hide decorative desktop rail/progress on touch screens. */
+  .rio-section-rail,
+  .rio-scroll-progress {
+    display: none !important;
+  }
+
+  .floating-v18-book {
+    right: 1rem !important;
+    bottom: max(1rem, env(safe-area-inset-bottom)) !important;
+  }
+}
+
+@media (max-width: 600px) {
+  #main-header > div {
+    padding-inline: 1rem !important;
+  }
+
+  #main-header .w-10 {
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+  }
+
+  #main-header .font-display.text-2xl {
+    font-size: 1.35rem !important;
+  }
+
+  #main-header span.text-\[9px\] {
+    font-size: 7px !important;
+    letter-spacing: .18em !important;
+  }
+
+  #hero-section > .relative.z-20 {
+    padding-inline: 1rem !important;
+    padding-top: 6.75rem !important;
+    padding-bottom: 4.75rem !important;
+  }
+
+  #hero-section .hero-title {
+    font-size: clamp(2.85rem, 15.5vw, 4.7rem) !important;
+    max-width: 7.2ch !important;
+  }
+
+  #hero-section .hero-aos-item.text-base {
+    font-size: .9rem !important;
+    line-height: 1.55 !important;
+  }
+
+  #hero-section .mt-9 {
+    margin-top: 1.35rem !important;
+  }
+
+  #hero-section .mt-10 {
+    margin-top: 1.35rem !important;
+  }
+
+  #hero-section .premium-button,
+  #hero-section .ghost-button {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  #hero-section .absolute.bottom-0 > .max-w-7xl {
+    padding-inline: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .gaming-section .gaming-feature-frame {
+    min-height: 260px !important;
+    height: 62vw !important;
+    border-radius: 1.25rem !important;
+  }
+
+  .pricing-heading h2 {
+    font-size: clamp(2.4rem, 12vw, 4rem) !important;
+  }
+
+  .contact-v18-grid {
+    gap: 1.25rem !important;
+  }
+
+  .footer-v18-shell {
+    padding-inline: 1rem !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide-image.is-active,
+  .gaming-slide.is-active img,
+  .hero-grid,
+  .hero-red-glow,
+  .gaming-noise {
+    animation: none !important;
   }
 }

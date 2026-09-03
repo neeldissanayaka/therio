@@ -26,3 +26,12 @@ Do not manually upload only `index.html` or an old `dist` directory.
 ## Backend
 
 The Express/Prisma API under `server/` is separate from the Vite static frontend. For production PayHere + database functionality, deploy the API/server to a Node-capable service and set the frontend environment variables to the production API URL.
+
+
+## Mobile viewport + social preview hardening (latest)
+
+- Mobile layout uses `100vw` at the section/root boundary to avoid first-paint narrow-canvas behavior seen on some Chromium mobile builds.
+- `html`, `body`, and `#root` clip horizontal overflow without relying on a centered transformed wrapper.
+- Hero reveal wrapper is explicitly neutralized on mobile.
+- Open Graph/Twitter image URLs are absolute HTTPS URLs so social crawlers can resolve the preview image reliably.
+- If the production domain changes, update the absolute `og:url` and image host in the HTML files.
