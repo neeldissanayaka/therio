@@ -24,7 +24,7 @@ app.use(pinoHttp());
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(compression());
 app.use(cookieParser());
-app.use(cors({ origin: origin || true, credentials: true, methods: ['GET','POST','PATCH','OPTIONS'], allowedHeaders: ['Content-Type'] }));
+app.use(cors({ origin: origin || true, credentials: true, methods: ['GET','POST','PATCH','OPTIONS'], allowedHeaders: ['Content-Type', 'Accept', 'Idempotency-Key'] }));
 app.use(express.urlencoded({ extended: false, limit: '20kb', type: 'application/x-www-form-urlencoded' }));
 app.use(express.json({ limit: '20kb' }));
 app.use(sameOrigin);

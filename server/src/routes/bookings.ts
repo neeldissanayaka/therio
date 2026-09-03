@@ -55,7 +55,7 @@ router.post('/:ref/checkout', async (req, res) => {
 });
 
 router.get('/:ref', async (req, res) => {
-  const booking = await prisma.booking.findUnique({ where: { publicRef: req.params.ref }, select: { publicRef:true, packageTitle:true, bookingDate:true, slotLabel:true, guests:true, totalLkr:true, status:true, payment:{select:{status:true}} } });
+  const booking = await prisma.booking.findUnique({ where: { publicRef: req.params.ref }, select: { publicRef:true, packageTitle:true, packageId:true, bookingDate:true, slotLabel:true, guests:true, addonIds:true, totalLkr:true, currency:true, status:true, payment:{select:{status:true}} } });
   if (!booking) return res.status(404).json({ error: 'Not found' });
   res.json(booking);
 });

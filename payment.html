@@ -1,3 +1,65 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Secure Payment — The Rio</title><link rel="stylesheet" href="/src/index.css"></head>
-<body class="bg-[#050505] text-white antialiased"><main class="min-h-screen flex items-center justify-center px-5 py-12"><section class="w-full max-w-xl rounded-3xl border border-white/10 bg-white/[.06] p-8 md:p-10"><a href="/" class="font-black text-xl">The Rio<span class="text-[#E50914]">.</span></a><p class="text-[#E50914] text-xs font-bold tracking-[.25em] uppercase mt-10">Secure checkout</p><h1 class="font-black text-4xl mt-2">Complete your payment.</h1><p id="status" class="text-white/60 mt-4">Preparing a secure PayHere checkout…</p><div id="summary" class="mt-8 rounded-2xl border border-white/10 bg-black/30 p-5 hidden"></div><form id="payhere" method="post" class="hidden"></form><button id="retry" class="hidden mt-7 w-full rounded-xl bg-[#E50914] py-4 font-extrabold uppercase tracking-widest">Try again</button><p class="mt-8 text-xs text-white/40">Card details are entered on PayHere. This site never receives or stores your card number or CVV.</p></section></main><script src="/payment.js" defer></script></body></html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#050505">
+  <meta name="description" content="Secure PayHere checkout for The Rio private cinema and PS5 experiences.">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <title>Secure Checkout — The Rio</title>
+  <link rel="stylesheet" href="/payment.css">
+</head>
+<body>
+  <main class="payment-page">
+    <div class="payment-shell">
+      <nav class="payment-nav">
+        <a class="brand" href="/" aria-label="Back to The Rio home">
+          <span class="brand-mark">R</span><span>THE RIO<span style="color:#e50914">.</span></span>
+        </a>
+        <a class="back-link" href="/">← BACK TO THE RIO</a>
+      </nav>
+
+      <div class="payment-grid">
+        <section>
+          <div class="eyebrow">THE RIO / SECURE CHECKOUT</div>
+          <h1>One last step.<br><span style="color:#e50914">Make it yours.</span></h1>
+          <p class="lead">Review your private cinema or PS5 session below, then continue to PayHere. Your card details are entered on PayHere’s secure checkout — The Rio does not collect or store your card number or CVV.</p>
+
+          <div class="steps">
+            <div class="step"><b>01 / REVIEW</b><span>Check your date, session and booking total.</span></div>
+            <div class="step"><b>02 / PAY</b><span>Continue to PayHere’s hosted checkout.</span></div>
+            <div class="step"><b>03 / CONFIRM</b><span>Your payment is verified server-side.</span></div>
+          </div>
+        </section>
+
+        <section class="card details" aria-live="polite">
+          <div class="details-head">
+            <div><div class="eyebrow">YOUR RESERVATION</div><div class="details-title">Booking summary</div></div>
+            <span id="status-pill" class="status-pill pending">Loading</span>
+          </div>
+          <div id="summary" class="rows">
+            <div class="row"><span>Booking</span><strong>Loading…</strong></div>
+          </div>
+        </section>
+
+        <section class="card checkout">
+          <div>
+            <div class="checkout-top"><span class="lock">⌁</span><span>PAYHERE HOSTED CHECKOUT</span></div>
+            <h2>Ready to lock the scene?</h2>
+            <p class="checkout-copy">Your booking is held for a limited payment window. The final amount is calculated and signed on our server before PayHere receives the checkout request.</p>
+          </div>
+          <div>
+            <button id="pay-btn" class="pay-btn" disabled>Continue to secure payment</button>
+            <div id="message" class="message" role="status"></div>
+            <p class="payhere-note">Secure payment powered by PayHere. No card details are stored by The Rio.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+    <form id="payhere" method="post" class="hidden" aria-hidden="true"></form>
+  </main>
+  <script src="/payment.js" defer></script>
+</body>
+</html>

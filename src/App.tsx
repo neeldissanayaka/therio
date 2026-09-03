@@ -27,9 +27,6 @@ export default function App() {
     document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handlePayment = () => {
-    window.location.assign('/payment.html');
-  };
 
   return (
     <div className="min-h-screen bg-white text-neutral-900 selection:bg-[#E50914] selection:text-white font-sans">
@@ -51,7 +48,6 @@ export default function App() {
         isOpen={bookingModalOpen}
         onClose={() => setBookingModalOpen(false)}
         initialPackageId={selectedPackageForBooking}
-        onProceedToPayment={handlePayment}
       />
 
       <button

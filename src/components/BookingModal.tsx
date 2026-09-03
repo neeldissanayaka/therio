@@ -1,32 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { X, Calendar, Clock, Users, CheckCircle2, Film, Gamepad2, Sparkles, ArrowRight, Minus, Plus } from 'lucide-react';
+import { X, Calendar, Clock, Film, Gamepad2, Sparkles, ArrowRight, Minus, Plus } from 'lucide-react';
 import { PACKAGES, TIME_SLOTS, ADDONS } from '../data/packagesData';
 
 interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
   initialPackageId?: 'movie' | 'ps5';
-  onProceedToPayment: () => void;
 }
 
-export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, initialPackageId = 'movie', onProceedToPayment }) => {
+export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, initialPackageId = 'movie' }) => {
   const [selectedPackage, setSelectedPackage] = useState<'movie' | 'ps5'>(initialPackageId);
   const [selectedDate, setSelectedDate] = useState(() => new Date().toISOString().split('T')[0]);
   const [selectedSlot, setSelectedSlot] = useState(TIME_SLOTS[0].id);
   const [extraPax, setExtraPax] = useState(0);
   const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
   const [specialNote, setSpecialNote] = useState('');
-  const [isBooked, setIsBooked] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [customer, setCustomer] = useState({ firstName: '', lastName: '', email: '', phone: '' });
-  const [bookingRef, setBookingRef] = useState('');
 
   useEffect(() => {
     if (isOpen) {
       setSelectedPackage(initialPackageId);
-      setIsBooked(false);
-      setBookingRef('');
     }
   }, [isOpen, initialPackageId]);
 
@@ -50,14 +45,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, ini
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Unable to create booking');
-      setBookingRef(data.bookingRef);
-      setIsBooked(true);
+      window.location.assign(`/payment.html?booking=${encodeURIComponent(data.bookingRef)}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unable to create booking');
     } finally { setIsSubmitting(false); }
   };
 
-  const close = () => { setIsBooked(false); onClose(); };
+  const close = () => { onClose(); };
 
   return (
     <div className="booking-v18-backdrop" role="dialog" aria-modal="true" aria-label="Reserve your experience">
@@ -65,30 +59,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, ini
         <header className="booking-v18-head">
           <div>
             <span>THE RIO / RESERVATION</span>
-            <h2>{isBooked ? 'Your scene is locked.' : 'Build your session.'}</h2>
+            <h2>Build your session.</h2>
           </div>
           <button onClick={close} className="booking-v18-close" aria-label="Close booking"><X /></button>
         </header>
 
-        {isBooked ? (
-          <div className="booking-v18-confirm">
-            <div className="booking-v18-confirm-icon"><CheckCircle2 /></div>
-            <span>CONFIRMATION {bookingRef}</span>
-            <h3>Ready when you are.</h3>
-            <p>Your private {currentPkg.category.toLowerCase()} session is staged as a demo reservation.</p>
-            <div className="booking-v18-ticket">
-              <div><span>EXPERIENCE</span><b>{currentPkg.category}</b></div>
-              <div><span>DATE</span><b>{selectedDate}</b></div>
-              <div><span>TIME</span><b>{slotObj.time}</b></div>
-              <div><span>GUESTS</span><b>{currentPkg.paxIncluded + extraPax}</b></div>
-              <div className="wide"><span>TOTAL</span><b>Rs. {totalPrice.toLocaleString()}</b></div>
-            </div>
-            <div className="flex gap-3">
-              <button className="booking-v18-primary flex-1" onClick={close}>Done <ArrowRight /></button>
-              <button className="booking-v18-primary flex-1" onClick={() => { close(); window.location.assign(`/payment.html?booking=${encodeURIComponent(bookingRef)}`); }}>Proceed to payment <ArrowRight /></button>
-            </div>
-          </div>
-        ) : (
           <form onSubmit={submit} className="booking-v18-body">
             <div className="booking-v18-step"><span>01</span><div><small>CHOOSE YOUR SCENE</small><h3>What are we playing?</h3></div></div>
             <div className="booking-v18-package-grid">
@@ -140,7 +115,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, ini
               <button type="submit" disabled={isSubmitting}>{isSubmitting ? 'Creating…' : 'Reserve this scene'} <ArrowRight /></button>
             </div>
           </form>
-        )}
+
       </div>
     </div>
   );
