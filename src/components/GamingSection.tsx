@@ -2,44 +2,52 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, Gamepad2, Tv, Users2, Zap } from 'lucide-react';
 import { Reveal } from './Reveal';
 
-interface GamingSectionProps { onBookGaming: () => void; }
+import fc24Img from '../assets/images/ea_sports_fc24_game_1788632655476.jpg';
+import spidermanImg from '../assets/images/superhero_city_game_1788632757889.jpg';
+import gt7Img from '../assets/images/gran_turismo_racing_game_1788632727011.jpg';
+import tekkenImg from '../assets/images/tekken_fighting_game_1788632691154.jpg';
+
+interface GamingSectionProps {
+  onBookGaming: () => void;
+  onNavigate?: (path: string) => void;
+}
 
 const slides = [
   {
+    image: fc24Img,
+    eyebrow: '01 / EA SPORTS FC 24',
+    title: 'STADIUM GLORY.\n4-PLAYER SQUAD.',
+    text: 'Kick off local tournaments with 4 wireless DualSense controllers on the 150-inch 4K laser projection.',
+  },
+  {
+    image: spidermanImg,
+    eyebrow: '02 / MARVEL SPIDER-MAN 2',
+    title: 'SWING THROUGH\n4K 120HZ NYC.',
+    text: 'Haptic feedback web-swinging, dual-hero story missions, and ultra-smooth ray-traced visuals.',
+  },
+  {
+    image: gt7Img,
+    eyebrow: '03 / GRAN TURISMO 7',
+    title: 'PRECISION TRACK.\nZERO LAG.',
+    text: 'Supercars, split-screen head-to-head racing, and sub-5ms low latency acoustic arcade speed.',
+  },
+  {
+    image: tekkenImg,
+    eyebrow: '04 / TEKKEN 8',
+    title: 'HEAT SMASH.\nVERSUS ARENA.',
+    text: 'Unreal Engine 5 arena destruction and explosive martial arts combos in full surround sound.',
+  },
+  {
     image: '/media/gaming/grand-theft-auto-vi-3840x2160-26939.webp',
-    eyebrow: '01 / GRAND THEFT AUTO VI',
+    eyebrow: '05 / GRAND THEFT AUTO VI',
     title: 'VICE CITY.\nFULL THROTTLE.',
     text: 'Step into a neon-soaked open world and make the big screen your private Vice City playground.',
-  },
-  {
-    image: '/media/gaming/forza-horizon-6-3840x2160-25224.webp',
-    eyebrow: '02 / FORZA HORIZON 6',
-    title: 'RACE THE NIGHT.',
-    text: 'High-speed Japanese streets, supercars and huge momentum — built for a proper 4K racing session.',
-  },
-  {
-    image: '/media/gaming/grid-legends-racing-3840x2160-10156.webp',
-    eyebrow: '03 / ASPHALT LEGENDS',
-    title: 'NITRO.\nNO BRAKES.',
-    text: 'Arcade speed, neon tracks and ridiculous overtakes. Turn the room into your own racing arena.',
-  },
-  {
-    image: '/media/gaming/italian-passion-car-3840x2160-26953.webp',
-    eyebrow: '04 / FORZA HORIZON 6',
-    title: 'CHASE THE\nHORIZON.',
-    text: 'Festival lights, mountain roads and full-screen motion — made for competitive nights with the crew.',
-  },
-  {
-    image: '/media/gaming/the-walking-dead-3840x2160-15719.webp',
-    eyebrow: '05 / THE WALKING DEAD',
-    title: 'SURVIVE\nTOGETHER.',
-    text: 'Switch the mood from racing to survival with a darker, story-driven session that pulls everyone in.',
   },
 ];
 
 const gamesList = ['EA SPORTS FC 24', 'Tekken 8', 'Spider-Man 2', 'Mortal Kombat 1', 'Gran Turismo 7', 'Call of Duty: MW3'];
 
-export const GamingSection: React.FC<GamingSectionProps> = ({ onBookGaming }) => {
+export const GamingSection: React.FC<GamingSectionProps> = ({ onBookGaming, onNavigate }) => {
   const [active, setActive] = useState(0);
   const [ready, setReady] = useState(false);
   const gamingRef = useRef<HTMLElement | null>(null);
@@ -126,6 +134,14 @@ export const GamingSection: React.FC<GamingSectionProps> = ({ onBookGaming }) =>
                 Book PS5 Arena
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
+              {onNavigate && (
+                <button
+                  onClick={() => onNavigate('/gaming')}
+                  className="px-5 py-3 rounded-full border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-xs font-bold uppercase tracking-wider text-white transition-all flex items-center gap-1.5"
+                >
+                  <span>Explore Specs & Games</span>
+                </button>
+              )}
               <div className="gaming-price"><span>3 HOURS</span><strong>Rs. 3,500</strong></div>
             </div>
           </Reveal>

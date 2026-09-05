@@ -1,7 +1,11 @@
 import React from 'react';
 import { ShieldCheck, Volume2, Armchair, Coffee, ArrowUpRight, Star, Sparkles } from 'lucide-react';
 
-export const AboutSection: React.FC = () => {
+interface AboutSectionProps {
+  onNavigate?: (path: string) => void;
+}
+
+export const AboutSection: React.FC<AboutSectionProps> = ({ onNavigate }) => {
   const highlights = [
     { icon: Armchair, title: 'Plush Recliners', desc: 'Deep-recline VIP seating with cup holders and food trays.' },
     { icon: Volume2, title: 'Dolby Atmos', desc: 'Immersive acoustics tuned for blockbuster impact.' },
@@ -65,10 +69,22 @@ export const AboutSection: React.FC = () => {
               ))}
             </div>
 
-            <div className="about-bottom-line">
+            <div className="about-bottom-line flex items-center justify-between">
               <span>PRIVATE BY DESIGN</span>
-              <span className="about-line" />
-              <span>BOOK YOUR PRIVATE NIGHT</span>
+              {onNavigate ? (
+                <button
+                  onClick={() => onNavigate('/about')}
+                  className="text-xs font-bold text-[#E50914] hover:text-[#c40811] flex items-center gap-1.5 transition-colors uppercase tracking-wider underline underline-offset-4"
+                >
+                  <span>Explore Acoustic Specs & Story</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </button>
+              ) : (
+                <>
+                  <span className="about-line" />
+                  <span>BOOK YOUR PRIVATE NIGHT</span>
+                </>
+              )}
             </div>
           </div>
         </div>

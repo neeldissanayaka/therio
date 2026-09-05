@@ -5,7 +5,6 @@ import cors from 'cors';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
-import pinoHttp from 'pino-http';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import auth from './routes/auth.js';
@@ -20,7 +19,6 @@ if (process.env.NODE_ENV === 'production' && !origin) throw new Error('PUBLIC_OR
 
 app.disable('x-powered-by');
 app.set('trust proxy', 1);
-app.use(pinoHttp());
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(compression());
 app.use(cookieParser());

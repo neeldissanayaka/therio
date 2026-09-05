@@ -73,10 +73,15 @@
    AOS-style scroll reveals + premium ambient motion.
    Respects reduced-motion preferences.
 ────────────────────────────────────────────────────────────── */
-html { scroll-behavior: smooth; }
-body { overflow-x: hidden; }
+html {
+  scroll-behavior: smooth;
+}
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 @media (min-width: 1024px) {
-  html { scroll-behavior: auto; }
+  html { scroll-behavior: smooth; }
   body { overscroll-behavior-y: auto; }
 
   /* Every desktop section gets a predictable viewport rhythm, but is allowed to grow
@@ -446,13 +451,14 @@ footer {
 
 @media (min-width: 1024px) {
   html {
-    scroll-behavior: auto;
+    scroll-behavior: smooth;
     scroll-padding-top: 0;
   }
 
   body {
-    overflow-x: hidden;
-    overscroll-behavior-y: none;
+    overflow-x: clip;
+    overflow-y: auto;
+    overscroll-behavior-y: auto;
   }
 
   main > section,

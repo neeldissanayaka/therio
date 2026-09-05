@@ -1,7 +1,11 @@
 import React from 'react';
 import { ArrowUpRight, Quote, Star } from 'lucide-react';
 
-export const TestimonialsSection: React.FC = () => {
+interface TestimonialsSectionProps {
+  onNavigate?: (path: string) => void;
+}
+
+export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onNavigate }) => {
   const reviews = [
     {
       name: 'Kavindu Perera',
@@ -92,7 +96,7 @@ export const TestimonialsSection: React.FC = () => {
           ))}
         </div>
 
-        <div className="testimonial-reference-bottom">
+        <div className="testimonial-reference-bottom flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="testimonial-reference-rating">
             <span className="rating-number">4.9</span>
             <div>
@@ -100,9 +104,15 @@ export const TestimonialsSection: React.FC = () => {
               <span>From The Rio guests</span>
             </div>
           </div>
-          <div className="testimonial-reference-dots" aria-hidden="true">
-            <i /><i className="active" /><i /><i />
-          </div>
+          {onNavigate && (
+            <button
+              onClick={() => onNavigate('/testimonials')}
+              className="text-xs font-bold text-[#E50914] hover:text-[#c40811] flex items-center gap-1.5 transition-colors uppercase tracking-wider underline underline-offset-4"
+            >
+              <span>Read Full Stories & Leave a Review</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </button>
+          )}
           <span className="testimonial-reference-note">Every stay leaves a story.</span>
         </div>
       </div>

@@ -4,9 +4,10 @@ import { PACKAGES } from '../data/packagesData';
 
 interface PackagesSectionProps {
   onSelectPackage: (packageId: 'movie' | 'ps5') => void;
+  onNavigate?: (path: string) => void;
 }
 
-export const PackagesSection: React.FC<PackagesSectionProps> = ({ onSelectPackage }) => {
+export const PackagesSection: React.FC<PackagesSectionProps> = ({ onSelectPackage, onNavigate }) => {
   return (
     <section id="packages" className="pricing-section relative overflow-hidden border-t border-black/[0.06]">
       <div className="pricing-orb pricing-orb-one" />
@@ -94,9 +95,20 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({ onSelectPackag
           })}
         </div>
 
-        <div className="pricing-footnote">
-          <span>Extra guest: <b>Rs. 1,000 / person</b></span>
-          <span>Snacks & drinks available inside the lounge</span>
+        <div className="pricing-footnote flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center gap-4">
+            <span>Extra guest: <b>Rs. 1,000 / person</b></span>
+            <span>Snacks & drinks available inside the lounge</span>
+          </div>
+          {onNavigate && (
+            <button
+              onClick={() => onNavigate('/packages')}
+              className="text-xs font-bold text-[#E50914] hover:text-[#c40811] flex items-center gap-1.5 transition-colors uppercase tracking-wider underline underline-offset-4"
+            >
+              <span>View Full Packages & In-Depth Comparison</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </button>
+          )}
         </div>
       </div>
     </section>

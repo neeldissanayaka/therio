@@ -47,8 +47,10 @@ router.post('/', async (req, res) => {
 router.post('/:ref/checkout', async (req, res) => {
   const booking = await prisma.booking.findUnique({ where: { publicRef: req.params.ref } });
   if (!booking || booking.status !== 'PENDING_PAYMENT' || (booking.paymentExpiresAt && booking.paymentExpiresAt < new Date())) return res.status(404).json({ error: 'Booking not payable or payment window expired' });
-  const merchantId = process.env.PAYHERE_MERCHANT_ID; const secret = process.env.PAYHERE_MERCHANT_SECRET; const origin = process.env.PUBLIC_ORIGIN;
-  if (!merchantId || !secret || !origin) return res.status(503).json({ error: 'Payment gateway is not configured' });
+  const merchantId = process.env.PAYHERE_MERCHANT_ID;
+  const secret = process.env.PAYHERE_MERCHANT_SECRET;
+  const origin = process.env.PUBLIC_ORIGIN || `${req.protocol}://${req.get('host')}`;
+  if (!merchantId || !secret) return res.status(503).json({ error: 'PayHere payment gateway is not configured (PAYHERE_MERCHANT_ID, PAYHERE_MERCHANT_SECRET).' });
   const payment = await prisma.payment.upsert({ where: { bookingId: booking.id }, update: {}, create: { bookingId: booking.id, amount: booking.totalLkr, currency: booking.currency } });
   const hash = createCheckoutHash(merchantId, booking.publicRef, booking.totalLkr, booking.currency, secret);
   res.json({ action: payhereAction, fields: { merchant_id: merchantId, return_url: `${origin}/payment.html?booking=${booking.publicRef}&result=success`, cancel_url: `${origin}/payment.html?booking=${booking.publicRef}&result=cancelled`, notify_url: `${origin}/api/payments/payhere/notify`, first_name: booking.firstName, last_name: booking.lastName, email: booking.email, phone: booking.phone, address: 'The Rio Cinema', city: 'Colombo', country: 'Sri Lanka', order_id: booking.publicRef, items: booking.packageTitle, currency: booking.currency, amount: booking.totalLkr.toFixed(2), hash, custom_1: payment.id } });
